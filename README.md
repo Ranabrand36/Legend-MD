@@ -1,19 +1,33 @@
-# LEGEND-MD Website
+# LEGEND-MD
 
-Static pairing portal for the LEGEND-MD WhatsApp bot.
+LEGEND-MD contains a static Vercel pairing website and a separate Node.js + Baileys API for Optiklink.
 
-## Vercel deployment
+## Frontend — Vercel
 
-1. Import the `Ranabrand36/Legend-MD` repository in Vercel.
-2. Set **Root Directory** to `website`.
-3. Deploy as a static site (no build command required).
-4. Before production, edit `index.html` and replace `https://YOUR-OPTIKLINK-DOMAIN` with the public HTTPS URL of the Optiklink Node.js API.
+1. Import `Ranabrand36/Legend-MD` into Vercel.
+2. Set **Root Directory** to the repository root (`.` or blank/default), not a subfolder.
+3. Use **Other** as the framework preset. No build command is required.
+4. The site entry point is the root `index.html`.
+5. After the backend is deployed, edit `index.html` and replace `https://YOUR-OPTIKLINK-DOMAIN` with its public HTTPS URL.
 
-## Backend contract
+## Backend — Optiklink
 
-The page sends:
-`POST /api/pair`
-with JSON body:
-`{"phone":"923001234567"}`
+The backend source is in `backend/`. Follow [backend/README.md](backend/README.md) to install dependencies, set environment variables, start the server, and test its health endpoint.
 
-The backend must allow the deployed Vercel origin through CORS, validate/rate-limit requests, and return JSON containing a pairing code (for example `{"code":"1234-5678"}`). Never expose WhatsApp session files or credentials to the browser.
+## Pairing API contract
+
+The website sends `POST /api/pair` with JSON:
+
+```json
+{"phone":"923001234567"}
+```
+
+The API responds with JSON containing a WhatsApp-generated pairing code:
+
+```json
+{"code":"1234-5678"}
+```
+
+## Security
+
+Never commit `.env`, `sessions/`, WhatsApp auth files, or credentials. Only link WhatsApp accounts you own or are authorized to manage. The backend starter has basic CORS and rate limiting but needs further hardening before being opened as a public multi-user service.
