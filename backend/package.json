@@ -1,0 +1,22 @@
+{
+  "name": "legend-md-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LEGEND-MD WhatsApp pairing API for a self-hosted Baileys instance",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.18",
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "express-rate-limit": "7.5.0",
+    "helmet": "8.1.0",
+    "pino": "9.6.0"
+  }
+}
