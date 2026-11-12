@@ -64,9 +64,15 @@ module.exports = async function handler(req, res) {
 
   const allowedOrigin = process.env.WEB_ORIGIN || DEFAULT_WEB_ORIGIN;
   const expectedHost = new URL(allowedOrigin).host.toLowerCase();
+  const deploymentHost = String(process.env.VERCEL_URL || "").toLowerCase();
+  const allowedHosts = new Set([expectedHost, deploymentHost].filter(Boolean));
+  const allowedOrigins = new Set([
+    allowedOrigin,
+    ...(deploymentHost ? ["https://" + deploymentHost] : [])
+  ]);
   const requestHost = String(req.headers.host || "").toLowerCase();
   const requestOrigin = req.headers.origin;
-  if (requestHost !== expectedHost || (requestOrigin && requestOrigin !== allowedOrigin)) {
+  if (!allowedHosts.has(requestHost) || (requestOrigin && !allowedOrigins.has(requestOrigin))) {
     return res.status(403).json({ error: "This website origin is not allowed." });
   }
 
