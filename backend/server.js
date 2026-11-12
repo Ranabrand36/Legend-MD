@@ -3,10 +3,16 @@ import cors from "cors";
 import helmet from "helmet";
 import pino from "pino";
 import path from "node:path";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { mkdir } from "node:fs/promises";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 import { isIP } from "node:net";
 import { useMultiFileAuthState, makeWASocket, DisconnectReason } from "@whiskeysockets/baileys";
+
+const backendDir = path.dirname(fileURLToPath(import.meta.url));
+const envFile = path.join(backendDir, ".env");
+if (existsSync(envFile)) process.loadEnvFile(envFile);
 
 const app = express();
 const logger = pino({ level: process.env.LOG_LEVEL || "info" });
