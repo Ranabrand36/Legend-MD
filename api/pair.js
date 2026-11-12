@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify(envelope),
       cache: "no-store",
       redirect: "error",
-      signal: AbortSignal.timeout(25000)
+      signal: AbortSignal.timeout(50000)
     });
 
     if (!upstream.ok) {
