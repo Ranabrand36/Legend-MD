@@ -64,11 +64,14 @@ module.exports = async function handler(req, res) {
 
   const allowedOrigin = process.env.WEB_ORIGIN || DEFAULT_WEB_ORIGIN;
   const expectedHost = new URL(allowedOrigin).host.toLowerCase();
-  const deploymentHost = String(process.env.VERCEL_URL || "").toLowerCase();
-  const allowedHosts = new Set([expectedHost, deploymentHost].filter(Boolean));
+  const deploymentHosts = [
+    process.env.VERCEL_URL,
+    process.env.VERCEL_BRANCH_URL
+  ].map((value) => String(value || "").toLowerCase()).filter(Boolean);
+  const allowedHosts = new Set([expectedHost, ...deploymentHosts]);
   const allowedOrigins = new Set([
     allowedOrigin,
-    ...(deploymentHost ? ["https://" + deploymentHost] : [])
+    ...deploymentHosts.map((host) => "https://" + host)
   ]);
   const requestHost = String(req.headers.host || "").toLowerCase();
   const requestOrigin = req.headers.origin;
