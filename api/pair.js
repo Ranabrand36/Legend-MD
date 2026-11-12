@@ -1,5 +1,5 @@
-import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
-import { isIP } from "node:net";
+const { createCipheriv, createDecipheriv, randomBytes } = require("node:crypto");
+const { isIP } = require("node:net");
 
 const ORIGIN = "http://93.115.106.210:5256";
 const REQUEST_AAD = "LEGEND-MD:PAIR-REQUEST:V1";
@@ -53,7 +53,7 @@ function openJson(envelope, key, aad) {
   ]).toString("utf8"));
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store, max-age=0");
   res.setHeader("Pragma", "no-cache");
 
@@ -63,7 +63,10 @@ export default async function handler(req, res) {
   }
 
   const allowedOrigin = process.env.WEB_ORIGIN || DEFAULT_WEB_ORIGIN;
-  if (req.headers.origin !== allowedOrigin) {
+  const expectedHost = new URL(allowedOrigin).host.toLowerCase();
+  const requestHost = String(req.headers.host || "").toLowerCase();
+  const requestOrigin = req.headers.origin;
+  if (requestHost !== expectedHost || (requestOrigin && requestOrigin !== allowedOrigin)) {
     return res.status(403).json({ error: "This website origin is not allowed." });
   }
 
