@@ -36,8 +36,6 @@
     <footer class="foot">Powered by <b>LEGEND HASSAN</b> · Never share your pairing code with anyone.</footer>
   </main>
   <script>
-    // Set this to your Optiklink server's public HTTPS URL before deployment.
-    const API_BASE = "https://YOUR-OPTIKLINK-DOMAIN";
     const form = document.getElementById("pairForm");
     const input = document.getElementById("phone");
     const button = document.getElementById("submit");
@@ -59,15 +57,11 @@
         show("Please enter a valid phone number with country code.");
         return;
       }
-      if (API_BASE.includes("YOUR-OPTIKLINK-DOMAIN")) {
-        show("Website interface is ready, but the Optiklink API address has not been configured yet.");
-        return;
-      }
       button.disabled = true;
       button.textContent = "REQUESTING CODE…";
       show("Contacting LEGEND-MD server. Please wait…");
       try {
-        const response = await fetch(API_BASE.replace(/\/$/, "") + "/api/pair", {
+        const response = await fetch("/api/pair", {
           method: "POST",
           headers: {"Content-Type":"application/json"},
           body: JSON.stringify({phone})
